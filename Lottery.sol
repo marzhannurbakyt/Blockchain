@@ -19,15 +19,10 @@ contract Lottery {
         return uint(keccak256(abi.encodePacked(now, msg.sender, this)));
     }
 
-    function pickWinner() public payable restricted {
+    function pickWinner() public payable {
         uint index = random() % players.length;
         players[index].transfer(address(this).balance);
         players = new address payable[](0);
-    }
-
-    modifier restricted() {
-        require(msg.sender == manager);
-        _;
     }
 
     function getPlayers() public view returns (address payable[] memory) {
